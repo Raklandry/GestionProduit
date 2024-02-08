@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/sing-in.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="alert-message ">
+        <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>Admin</strong>
+            <span class="small d-block">Mail: admin@gmail.com</span>
+            <span class="small d-block">Mpd: 123456</span>
+            <hr>
+            <span class="small d-block">Cela doit être initialisé via les fixtures</span>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="form-signin">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <h1 class="h2 mb-3 fw-bold text-center">Connexion</h1>
+
+                <div class="form-floating">
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    <label for="inputEmail">Email address</label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    <label for="inputPassword">Password</label>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                {#     
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Souviens-toi de moi
+                    </label>
+                </div>#}
+                <button class="btn btn-primary btn-sm w-100 py-2" type="submit">
+                    Se connecter
+                </button>
+
+                <a class="d-block my-3" href="{{ path('app_register') }}">
+                    Créer nouveau compte
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

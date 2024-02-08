@@ -1,0 +1,27 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Fournisseur{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Fournisseur</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-fournisseur me-2">
+                <a href="{{ path('app_fournisseur') }}" type="button" class="btn btn-sm btn-outline-secondary">Retour</a>
+            </div>
+        </div> 
+    </div>
+
+    <h2 class="text-primary">Modifier un fournisseur</h2>
+
+    {{ form_start(form) }}
+    <div class="row g-3 my-3 mx-4">
+        <div class="col-md-6">
+            {{ form_row(form.nom) }}
+        </div>
+        <div class="col-md-12 text-end">
+            <button class="btn btn-primary" type="submit">Modifier</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

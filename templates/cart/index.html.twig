@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Panier</h1>
+        {% if carts|length %}
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-produit me-2">
+                <a href="{{ path('remove_all_cart') }}" class="btn btn-sm btn-outline-danger">Vider mon panier</a>
+            </div>
+        </div>
+        {% endif %} 
+    </div>
+    {% if carts|length %}
+        <h2>Listes des Produits</h2>
+
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="2">Produit</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Total</th>
+                        <th scope="col" class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = null %}
+                    {% for cart in carts %}
+                        <tr>
+                            <td>
+                                <span class="fw-bold">{{ cart.produit.titre }}</span>
+                                <span class="small d-block description-containt">{{ cart.produit.description | length > 70 ? cart.produit.description | slice(0, 70) ~ '...' : cart.produit.description }} </span>
+                            </td>
+                            <td>
+                                <div class="my-auto">
+                                    <span class="small d-block">Marque: {{ cart.produit.marque }}</span>
+                                    <span class="small d-block">Types: {{ cart.produit.types }}</span>
+                                    <span class="small d-block">Genre: {{ cart.produit.genre }}</span>
+                                </div>
+                            </td>
+                            <td>{{ cart.produit.prixTtc }} Ar</td>
+                            <td>
+                                <div class="input-group mb-3 quantity-container">
+                                    <a href="{{ path('decrement_cart', {id:cart.produit.id}) }}" class="btn btn-outline-danger button-decrement-q" type="button" data-quantity="#stock-input-{{cart.produit.id}}"> - </a>
+                                    <input type="text" class="form-control text-center fw-bold" disabled value="{{ cart.quantity }}" id="stock-input-{{cart.produit.id}}" name="stock" placeholder="Quantité du produit en stock" pattern="[0-9]+" required>
+                                    <a href="{{ path('add_cart', {id:cart.produit.id}) }}" class="btn btn-outline-primary button-increment-q" type="button" data-quantity="#stock-input-{{cart.produit.id}}"> + </a>
+                                </div>
+                            </td>
+                            <td>{{ cart.produit.prixTtc * cart.quantity }} Ar</td>
+                            <td class="text-end">
+                                <a class="del-product btn btn-danger btn-sm" href="{{ path('remove_cart', {id:cart.produit.id}) }}">Suppimer</a>
+                            </td>
+                        </tr>
+                        {% set total = total + (cart.produit.prixTtc * cart.quantity) %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="tfoot-panier text-end mb-5">
+                <p><b>Nombre de produit : </b>{{ carts|length }}</p>
+                <p><b>Total de mon panier : </b>{{ total }} Ar</p>
+                <a href="{{ path('valider_commande') }}" class="btn btn-success btn-sm w-100">Valider ma commande</a>
+            </div>
+        </div>
+    {% else %}
+        <h4 class="text-center">Aucun produit dans le panier, <a href="{{ path('app_home') }}" >Ajouter produit</a></h4>
+    {% endif %}
+{% endblock %}

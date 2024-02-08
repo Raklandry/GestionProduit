@@ -2,18 +2,86 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            {# style bootstrap #}
+            <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
+            {# style perso #}
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% if block('header') is defined %}
+            <!-- header -->
+            <header data-bs-theme="dark">
+                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">GESTION PRODUIT</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            {% if app.user %}
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{{ path('app_produit') }}">Produit</a>
+                                </li>
+                            {% endif %}
+                            {#  
+                               <li class="nav-item">
+                                    <a class="nav-link" href="#">Link</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                                </li> 
+                            #} 
+                            </ul>   
+                            {# 
+                                <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form> 
+                            #}
+                            {% if app.user %}
+                                <div class="d-flex" role="security">
+                                    <a href="{{ path('app_logout') }}" class="btn btn-outline-primary">Déconnexion</a>
+                                </div>
+                            {% else %}
+                                <div class="d-flex gap-2" role="security">
+                                    <a href="{{ path('app_login') }}" class="btn btn-outline-success">Connexion</a>
+                                    <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Inscription</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <!-- header end -->
+        {% endif %}
+
+        <main>
+            <div class="container mt-5 pt-5">
+                {% for label,messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert-message ">
+                            <div class="alert alert-{{ label }} alert-dismissible fade show mt-2" role="alert">
+                                <strong>{{ message }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
+        {% block javascripts %}
+            <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery-3.1.1.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

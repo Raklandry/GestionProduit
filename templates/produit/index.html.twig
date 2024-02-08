@@ -1,0 +1,114 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Produit</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-produit me-2">
+                <a href="{{ path('ajout_produit') }}" class="btn btn-sm btn-outline-primary">Ajouter un nouveau produit</a>
+            </div>
+        </div> 
+    </div>
+    {% if produits|length %}
+        <h2>Listes des Produits</h2>
+
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Fournisseur</th>
+                        <th scope="col">titre</th>
+                        <th scope="col">description</th>
+                        <th scope="col">quantite_en_stock</th>
+                        <th scope="col">marque</th>
+                        <th scope="col">prix_ttc</th>
+                        <th scope="col">types</th>
+                        <th scope="col">genre</th>
+                        <th scope="col" class="text-end"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produit in produits %}
+                        <tr>
+                            <td>{{ produit.fournisseur.nom }}</td>
+                            <td>{{ produit.titre }}</td>
+                            <td>{{ produit.description }}</td>
+                            <td>{{ produit.quantiteEnStock }}</td>
+                            <td>{{ produit.marque }}</td>
+                            <td>{{ produit.prixTtc }}</td>
+                            <td>{{ produit.types }}</td>
+                            <td>{{ produit.genre }}</td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Options
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a data-href="{{ path('stock_produit', {'id':produit.id}) }}" class="dropdown-item stock-product" data-stock="{{ produit.quantiteEnStock }}" data-produit="{{ produit.id }}" data-bs-toggle="modal" data-bs-target="#stockModal">Stock</a></li>
+                                        <li><a href="{{ path('modifier_produit', {'id':produit.id}) }}" class="dropdown-item">Modifier</a></li>
+                                        <li><a class="dropdown-item del-product" data-href="{{ path('supprimer_produit', {'id':produit.id}) }}" data-bs-toggle="modal" data-bs-target="#deleteModal">Suppimer</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <h4 class="text-center">Aucun produit, <a href="{{ path('ajout_produit') }}" >Ajouter un nouveau produit</a></h4>
+    {% endif %}
+    
+
+    <!-- Modal supprimer produit -->
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Suppression</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Est-ce que vous voulez vraiment supprimer cette produit ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <a href="#" class="link-del-produit btn btn-danger">Supprimer</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Stock du produit -->
+    <div class="modal fade" id="stockModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" id="form-stock">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">Stock</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-5">
+                        <label for="stock-input" class="form-label">Quantité en Stock</label>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-danger" type="button" id="button-decrement-q"> - </button>
+                            <input type="text" class="form-control text-center" id="stock-input" name="stock" placeholder="Quantité du produit en stock" pattern="[0-9]+" required>
+                            <button class="btn btn-outline-primary" type="button" id="button-increment-q"> + </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="link-del-produit btn btn-success">Valider</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/produit.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Fournisseur{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Fournisseur</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-produit me-2">
+                <a href="{{ path('ajout_fournisseur') }}" class="btn btn-sm btn-outline-primary">Ajouter un nouveau fournisseur</a>
+            </div>
+        </div> 
+    </div>
+    {% if fournisseurs|length %}
+        <h2>Listes des fournisseurs</h2>
+
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col" class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fournisseur in fournisseurs %}
+                        <tr>
+                            <td>{{ fournisseur.nom }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('modifier_fournisseur', {'id':fournisseur.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
+                                <a class="del-fournisseur btn btn-danger btn-sm" data-href="{{ path('supprimer_fournisseur', {'id':fournisseur.id}) }}" data-bs-toggle="modal" data-bs-target="#deleteModal">Suppimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <h4 class="text-center">Aucun fournisseur, <a href="{{ path('ajout_fournisseur') }}" >Ajouter un nouveau fournisseur</a></h4>
+    {% endif %}
+    
+
+    <!-- Modal supprimer produit -->
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deleteModalLabel">Suppression</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p>Est-ce que vous voulez vraiment supprimer cette fournisseur ?</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <a href="#" class="link-del-fournisseur btn btn-danger">Supprimer</a>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on('click', '.del-fournisseur', (e) => {
+            let href = $(e.target).data('href')
+            $('.link-del-fournisseur').attr('href', href)
+        })
+    </script>
+{% endblock %}

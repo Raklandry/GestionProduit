@@ -1,0 +1,54 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Détail commande{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Commande</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-produit me-2">
+                <a href="{{ path('app_commande') }}" class="btn btn-sm btn-outline-primary">Retour à la liste</a>
+            </div>
+        </div> 
+    </div>
+
+    <h2>Détail du commande</h2>
+
+    <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Produit</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in commande.commandeDetails %}
+                    <tr>
+                        <td>{{ detail.produit }}</td>
+                        <td>{{ detail.prix }} Ar</td>
+                        <td>x {{ detail.quantity }}</td>
+                        <td>{{ detail.prixTotal }} Ar</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <p><span class="fw-bold">Nom : </span>{{ commande.user.nom }}</p>
+            <p><span class="fw-bold">Prenom : </span>{{ commande.user.prenom }}</p>
+            <p><span class="fw-bold">Email : </span>{{ commande.user.email }}</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <p><span class="fw-bold">Prix total : </span>{{ commande.total }} Ar</p>
+            <p><span class="fw-bold">Date : </span>{{ commande.date | date("d/m/Y") }}</p>
+        </div>
+    </div>
+
+{% endblock %}

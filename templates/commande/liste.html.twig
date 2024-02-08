@@ -1,0 +1,52 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Commandes</h1>
+    </div>
+    {% if commandes|length %}
+        <h2>Listes des commandes</h2>
+
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Numéro</th>
+                        <th scope="col">Date</th>
+                        <th scope="col" colspan="3">Client</th>
+                        <th scope="col">Montant total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr>
+                            <td class="text-center">
+                                <a href="{{ path('admin_detail_commande', {id:commande.id}) }}">{{ commande.id }}</a>
+                            </td>
+                            <td>{{ commande.date | date("d/m/Y") }}</td>
+                            <td>
+                                <span class="small d-block fw-bold">Nom</span>
+                                <span class="small d-block">{{ commande.user.nom }}</span>
+                            </td>
+                            <td>
+                                <span class="small d-block fw-bold">Prenom</span>
+                                <span class="small d-block">{{ commande.user.prenom }}</span>
+                            </td>
+                            <td>
+                                <span class="small d-block fw-bold">Email</span>
+                                <span class="small d-block">{{ commande.user.email }}</span>
+                            </td>
+                            <td>{{ commande.total }} Ar</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <h4 class="text-center">Aucune commande</h4>
+    {% endif %}
+{% endblock %}

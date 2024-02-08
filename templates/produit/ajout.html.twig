@@ -1,0 +1,48 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Produit</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-produit me-2">
+                <a href="{{ path('app_produit') }}" type="button" class="btn btn-sm btn-outline-secondary">Retour</a>
+            </div>
+        </div> 
+    </div>
+
+    <h2 class="text-primary">Ajout Produit</h2>
+
+    {{ form_start(form) }}
+    <div class="row g-3 my-3 mx-4">
+        <div class="col-md-6">
+            {{ form_row(form.fournisseur) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.titre) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.marque) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.quantite_en_stock) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.prix_ttc) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.types) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.genre) }}
+        </div>
+        <div class="col-md-12 text-end">
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

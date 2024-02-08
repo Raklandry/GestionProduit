@@ -1,0 +1,33 @@
+.form-signup {
+    max-width: 396px;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #0000004a;
+}
+
+.form-signup .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signup input {
+    margin-bottom: -1px;
+    border-radius: 0;
+}
+
+
+.form-signup .form-floating:first-of-type input {
+    margin-bottom: -1px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signup .form-floating:last-of-type input {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
